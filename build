@@ -1,0 +1,10 @@
+#!/bin/bash
+set -euo pipefail
+
+> hosts
+> uBlacklist.txt
+
+while read -a name; do
+  echo "0.0.0.0 ${name}" >> hosts
+  echo "*://${name}/*" >> uBlacklist.txt
+done < why
