@@ -1,0 +1,21 @@
+name: build
+on:
+  workflow_run:
+    branches: [main]
+    workflows: [test]
+    types: [completed]
+jobs:
+  main:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: make build
+      - name: Commit
+        run: |
+          git config user.name bot
+          git config user.email bot@example
+          git add .
+          if git commit -m build; then
+            git push
+          fi
